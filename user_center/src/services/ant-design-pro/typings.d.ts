@@ -3,24 +3,17 @@
 
 declare namespace API {
   type CurrentUser = {
-    name?: string;
-    avatar?: string;
-    userid?: string;
-    email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    tags?: { key?: string; label?: string }[];
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    geographic?: {
-      province?: { label?: string; key?: string };
-      city?: { label?: string; key?: string };
-    };
-    address?: string;
-    phone?: string;
+    id: number;
+    userName: string;
+    userAccount: string;
+    avatarUrl: string;
+    gender: number;
+    phone: string;
+    email: string;
+    code: string;
+    userStatus: number;
+    createTime: Date;
+    userRole: number;
   };
 
   type LoginResult = {
@@ -28,10 +21,20 @@ declare namespace API {
     type?: string;
     currentAuthority?: string;
   };
+  type RegisterResult = number;
 
   type PageParams = {
     current?: number;
     pageSize?: number;
+  };
+  /**
+   * 对接后端的通用返回类
+   */
+  type BaseResponse<T> = {
+    code: number;
+    message: string;
+    data: T;
+    description: string;
   };
 
   type RuleListItem = {
@@ -62,9 +65,16 @@ declare namespace API {
   };
 
   type LoginParams = {
-    username?: string;
-    password?: string;
+    userAccount?: string;
+    userPassword?: string;
     autoLogin?: boolean;
+    type?: string;
+  };
+  type RegisterParams = {
+    userAccount?: string;
+    userPassword?: string;
+    checkPassword?: string;
+    code?: string;
     type?: string;
   };
 

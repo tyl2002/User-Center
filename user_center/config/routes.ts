@@ -1,52 +1,26 @@
-﻿export default [
+export default [
   {
     path: '/user',
     layout: false,
     routes: [
-      {
-        name: 'login',
-        path: '/user/login',
-        component: './user/Login',
-      },
-      {
-        component: './404',
-      },
+      { name: '登录', path: '/user/login', component: './user/Login' },
+      { name: '注册', path: '/user/register', component: './user/Register' },
+      { component: './404' },
     ],
   },
+  { path: '/welcome', name: '欢迎', icon: 'smile', component: './Welcome' },
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
-    name: 'admin',
+    path: '/admin/user-manage',
+    name: '管理页',
     icon: 'crown',
     access: 'canAdmin',
+    component: './Admin',
     routes: [
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        component: './404',
-      },
+      { path: '/admin/user-manage', icon: 'smile', component: './Admin/UserManage' },
+      { component: './404' },
     ],
   },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
-    path: '/',
-    redirect: '/welcome',
-  },
-  {
-    component: './404',
-  },
+  { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
+  { path: '/', redirect: '/welcome' },
+  { component: './404' },
 ];
