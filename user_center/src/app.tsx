@@ -7,16 +7,15 @@ import type { RunTimeLayoutConfig } from 'umi';
 import { history, Link } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import type { RequestConfig } from 'umi';
 import { message } from 'antd';
 import { stringify } from 'querystring';
-import type { RequestConfig } from 'umi';
+
 // @ts-ignore
-console.log('------------', process.env.NODE_ENV);
 export const request: RequestConfig = {
-  prefix:
-    process.env.NODE_ENV == 'production' ? 'http://49.232.54.145:8080' : 'http://localhost:8080',
-  // prefix: 'http://49.232.54.145:8080',
   timeout: 100000,
+  errorConfig: {},
+  // other axios options you want
   requestInterceptors: [],
   responseInterceptors: [
     // 直接写一个 function，作为拦截器
@@ -34,7 +33,7 @@ export const request: RequestConfig = {
           }),
         });
       } else {
-        message.error(res.msg);
+        message.error(res.description);
       }
       return res.data;
     },
@@ -43,7 +42,7 @@ export const request: RequestConfig = {
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-const NO_LOGIN_WHITE_LIST = ['/user/login', '/user/register'];
+const NO_LOGIN_WHITE_LIST = ['/user/login', '/user/register', '/'];
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {

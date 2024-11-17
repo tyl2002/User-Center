@@ -57,3 +57,7 @@ const registryMap = {
 把`taobao`源改成`https://registry.npmmirror.com/`就可以了
 
 ⚠️注意下：如果你用的是`pnpm`你还要去`node_modules`下面的`.pnpm`目录下面找`getnpmregistry`这个包，看下里面的`taobao`源配置的对不对，有可能`node_modules/getnpmregistry/index.js`里面的配置和`node_modules/.pnpm/getnpmregistry@1.0.1/node_modules/getnpmregistry/index.js`的不一致
+
+### 错误拦截器
+
+D:\project\code\User-Center\user_center\node_modules\antd\lib\message

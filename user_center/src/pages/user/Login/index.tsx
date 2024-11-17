@@ -50,15 +50,14 @@ const Login: React.FC = () => {
           redirect: string;
         };
         history.push(redirect || '/');
+        console.log(user);
+        // setUserLoginState(user);
         return;
       }
-      console.log(user);
       // 如果失败去设置用户错误信息
       // @ts-ignore
-      setUserLoginState(user);
     } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
-      message.error(defaultLoginFailureMessage);
+      message.error(1);
     }
   };
   const { status, type: loginType } = userLoginState;

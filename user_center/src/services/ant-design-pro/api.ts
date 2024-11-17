@@ -23,6 +23,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 export async function register(body: API.RegisterParams, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.RegisterResult>>('/api/user/register', {
     method: 'POST',
+    skipErrorHandler: true,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -35,6 +36,7 @@ export async function register(body: API.RegisterParams, options?: { [key: strin
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.RegisterResult>>('/api/user/login', {
     method: 'POST',
+    skipErrorHandler: true,
     headers: {
       'Content-Type': 'application/json',
     },
