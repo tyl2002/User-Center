@@ -25,11 +25,13 @@ export const request: RequestConfig = {
         return res.data;
       }
       if (res.code == 40100) {
-        message.error('请先登录');
+        if (history.location.pathname !== '/') {
+          message.error('请先登录');
+        }
         history.replace({
           pathname: '/user/login',
           search: stringify({
-            redirect: location.origin,
+            redirect: location.pathname,
           }),
         });
       } else {
@@ -42,7 +44,7 @@ export const request: RequestConfig = {
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
-const NO_LOGIN_WHITE_LIST = ['/user/login', '/user/register', '/'];
+const NO_LOGIN_WHITE_LIST = ['/user/login', '/user/register'];
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -65,6 +67,7 @@ export async function getInitialState(): Promise<{
     }
     return undefined;
   };
+  console.log(history.location.pathname);
   // 如果是登录页面，执行
   if (NO_LOGIN_WHITE_LIST.includes(history.location.pathname)) {
     return {

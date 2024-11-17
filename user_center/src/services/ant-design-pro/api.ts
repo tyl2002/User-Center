@@ -7,6 +7,7 @@ import { request } from '@/.umi/plugin-request/request';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<API.BaseResponse<API.CurrentUser>>('/api/user/current', {
     method: 'GET',
+    skipErrorHandler: true,
     ...(options || {}),
   });
 }
