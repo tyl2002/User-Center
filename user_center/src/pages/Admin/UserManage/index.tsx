@@ -36,7 +36,12 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'avatarUrl',
     render: (_, record) => (
       <Space>
-        <Image src={record.avatarUrl} height={50} width={50}></Image>
+        <Image
+          src={record.avatarUrl ? record.avatarUrl : 'img.png'}
+          height={50}
+          width={50}
+          style={{ display: 'flex', borderRadius: '50%' }}
+        ></Image>
       </Space>
     ),
   },
@@ -86,6 +91,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'createTime',
     ellipsis: true,
     valueType: 'dateTime',
+    colSize: 3,
   },
 
   // {
