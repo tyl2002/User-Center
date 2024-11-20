@@ -61,3 +61,92 @@ const registryMap = {
 ### 错误拦截器
 
 D:\project\code\User-Center\user_center\node_modules\antd\lib\message
+
+前端日志
+
+1. 对于请求中的拦截问题，导致请求接口出现错误信息时，我们自己的拦截器会拦截一次，umi自带的拦截器也会拦截一次，由于我们自定义的响应类型与它默认的不一致，导致会弹出两个`message.error`,需要手动给接口跳过umi错误拦截器，后期如果接口过多再做修改。
+
+```js
+export async function currentUser(options?: { [key: string]: any }) {
+  return request<API.BaseResponse<API.CurrentUser>>('/api/user/current', {
+    method: 'GET',
+    skipErrorHandler: true,
+    ...(options || {}),
+  });
+}
+```
+
+2. 当访问'/'路径时，由于NO_LOGIN_LIST中不包含此路径，导致会有未登录的提示，但如何在白名单中加入此路径，因为router的定义了这个路径重定向到'/welcome' 会导致直接进入系统，故在我们编写的响应拦截器中加入对此路径的判断。
+
+   ```js
+   if (res.code == 40100) {
+     if (history.location.pathname !== '/') {
+       message.error('请先登录');
+     }
+     history.replace({
+       pathname: '/user/login',
+       search: stringify({
+         redirect: location.pathname,
+       }),
+     });
+   } else {
+     message.error(res.description);
+   }
+   ```
+
+### Docker
+
+#### 后端docker部署
+
+Dockerfile
+
+```dockerfile
+FROM maven:3.5-jdk-8-alpine as builder
+
+# Copy local code to the container image.
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+
+# Build a release artifact.
+RUN mvn package -DskipTests
+
+# Run the web service on container startup.
+CMD ["java","-jar","/app/target/user-center-backend-0.0.1-SNAPSHOT.jar","--spring.profiles.active=prod"]
+```
+
+```cmd
+docker build -t user-center-be:v0.0.1 .
+```
+
+![image-20241120140226084](C:\Users\92708\AppData\Roaming\Typora\typora-user-images\image-20241120140226084.png)
+
+修改Docker的配置文件，添加可用镜像即可
+
+参考：[docker镜像源地址配置_docker 镜像源地址-CSDN博客](https://blog.csdn.net/weixin_58069198/article/details/143357490)
+
+```dockerfile
+{
+  "registry-mirrors": ["https://docker.registry.cyou",
+"https://docker-cf.registry.cyou",
+"https://dockercf.jsdelivr.fyi",
+"https://docker.jsdelivr.fyi",
+"https://dockertest.jsdelivr.fyi",
+"https://mirror.aliyuncs.com",
+"https://dockerproxy.com",
+"https://mirror.baidubce.com",
+"https://docker.m.daocloud.io",
+"https://docker.nju.edu.cn",
+"https://docker.mirrors.sjtug.sjtu.edu.cn",
+"https://docker.mirrors.ustc.edu.cn",
+"https://mirror.iscas.ac.cn",
+"https://docker.rainbond.cc"]
+}
+```
+
+```cmd
+systemctl daemon-reload
+
+systemctl restart docker
+```
+
