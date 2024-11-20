@@ -11,36 +11,33 @@ import type { RequestConfig } from 'umi';
 import { message } from 'antd';
 import { stringify } from 'querystring';
 
-// @ts-ignore
-export const request: RequestConfig = {
-  timeout: 100000,
-  errorConfig: {},
-  // other axios options you want
-  requestInterceptors: [],
-  responseInterceptors: [
-    // 直接写一个 function，作为拦截器
-    async (response) => {
-      const res = await response.clone().json();
-      if (res.code == 0) {
-        return res.data;
-      }
-      if (res.code == 40100) {
-        if (history.location.pathname !== '/') {
-          message.error('请先登录');
-        }
-        history.replace({
-          pathname: '/user/login',
-          search: stringify({
-            redirect: location.pathname,
-          }),
-        });
-      } else {
-        message.error(res.description);
-      }
-      return res.data;
-    },
-  ],
-};
+// // @ts-ignore
+// export const request: RequestConfig = {
+//   timeout: 100000,
+//   responseInterceptors: [
+//     // 直接写一个 function，作为拦截器
+//     async (response) => {
+//       const res = await response.clone().json();
+//       if (res.code == 0) {
+//         return res.data;
+//       }
+//       if (res.code == 40100) {
+//         if (history.location.pathname !== '/') {
+//           message.error('请先登录');
+//         }
+//         history.replace({
+//           pathname: '/user/login',
+//           search: stringify({
+//             redirect: location.pathname,
+//           }),
+//         });
+//       } else {
+//         message.error(res.description);
+//       }
+//       return res.data;
+//     },
+//   ],
+// };
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
