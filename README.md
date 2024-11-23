@@ -116,7 +116,12 @@ CMD ["java","-jar","/app/target/user-center-backend-0.0.1-SNAPSHOT.jar","--sprin
 ```
 
 ```cmd
-docker build -t user-center-be:v0.0.1 .
+# 后端
+docker build -t user-center-backend:v0.0.1 .
+
+# 前端
+docker build -t user-center-front:v0.0.1 .
+
 ```
 
 ![image-20241120140226084](C:\Users\92708\AppData\Roaming\Typora\typora-user-images\image-20241120140226084.png)
@@ -149,4 +154,8 @@ systemctl daemon-reload
 
 systemctl restart docker
 ```
+
+docker windows 安装
+
+参考：[Windows11下安装Docker - jory - 博客园](https://www.cnblogs.com/jory/p/18375482)
 
